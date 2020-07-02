@@ -1,0 +1,28 @@
+{
+  "name": "goit-hw-node-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UsenkoIvan/goit-hw-node-js.git"
+  },
+  "keywords": [],
+  "author": "Usenko Ivan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UsenkoIvan/goit-hw-node-js/issues"
+  },
+  "homepage": "https://github.com/UsenkoIvan/goit-hw-node-js#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "shortid": "^2.2.15",
+    "yargs": "^15.3.1"
+  }
+}
