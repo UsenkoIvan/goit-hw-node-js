@@ -1,5 +1,36 @@
 const Joi = require('@hapi/joi');
 
+// {
+//   email: String,
+//   password: String,
+//   subscription: {
+//     type: String,
+//     enum: ["free", "pro", "premium"],
+//     default: "free"
+//   },
+//   token: String
+// }
+
+function validateAuthUser(req, res, next) {
+  const authUserSchema = Joi.object({
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+    subscription: Joi.object({
+      type: Joi.string(),
+      enum: [Joi.string()],
+      default: Joi.string(),
+    }),
+    token: Joi.string(),
+  });
+
+  const result = authUserSchema.validate(req.body);
+
+  if (result.error) {
+    res.status(400).send(result.error.message);
+  }
+  next();
+}
+
 function validateCreateContact(req, res, next) {
   const contactSchema = Joi.object({
     name: Joi.string().required(),
@@ -42,4 +73,5 @@ module.exports = {
   validateCreateContact,
   validateUpdateContact,
   validateObjectId,
+  validateAuthUser,
 };

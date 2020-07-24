@@ -1,10 +1,12 @@
 const { Router } = require('express');
 const contactRouter = Router();
+
 const {
   validateCreateContact,
   validateUpdateContact,
   validateObjectId,
 } = require('../helpers/validate');
+
 const {
   getContacts,
   getContact,
@@ -13,21 +15,28 @@ const {
   updateContact,
 } = require('./contacts.controller');
 
+const { authorization, authWithCookies } = require('../users/users.middleware');
+
 // GET
 
-contactRouter.get('/', getContacts);
+contactRouter.get('/', authorization, getContacts);
 
 //GET :id
 
-contactRouter.get('/:contactId', validateObjectId, getContact);
+contactRouter.get('/:contactId', authorization, validateObjectId, getContact);
 
 // POST
 
-contactRouter.post('/', validateCreateContact, createContact);
+contactRouter.post('/', authorization, validateCreateContact, createContact);
 
 // Delete
 
-contactRouter.delete('/:contactId', validateObjectId, removeContact);
+contactRouter.delete(
+  '/:contactId',
+  authorization,
+  validateObjectId,
+  removeContact,
+);
 
 // Patch
 
