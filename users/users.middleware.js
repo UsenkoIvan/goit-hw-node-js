@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const userModel = require('./users.model');
 
 const authorization = async function (req, res, next) {
@@ -45,7 +46,29 @@ const authWithCookies = async function (req, res, next) {
   next();
 };
 
+// Multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './public/images');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '_' + file.originalname);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    cb(null, true);
+  } else {
+    cb('Type file is not access', false);
+  }
+};
+
+const uploadMulter = multer({ storage, fileFilter });
+//
+
 module.exports = {
   authorization,
   authWithCookies,
+  uploadMulter,
 };

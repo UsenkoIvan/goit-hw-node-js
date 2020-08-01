@@ -1,15 +1,5 @@
 const Joi = require('@hapi/joi');
-
-// {
-//   email: String,
-//   password: String,
-//   subscription: {
-//     type: String,
-//     enum: ["free", "pro", "premium"],
-//     default: "free"
-//   },
-//   token: String
-// }
+Joi.objectId = require('joi-objectid')(Joi);
 
 function validateAuthUser(req, res, next) {
   const authUserSchema = Joi.object({
@@ -60,7 +50,7 @@ function validateUpdateContact(req, res, next) {
 
 function validateObjectId(req, res, next) {
   const objectIdSchema = Joi.object({
-    id: Joi.objectId(),
+    _id: Joi.objectId(),
   });
   const result = objectIdSchema.validate(req.params);
   if (result.error) {

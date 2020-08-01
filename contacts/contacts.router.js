@@ -42,6 +42,7 @@ contactRouter.delete(
 
 contactRouter.patch(
   '/:contactId',
+  authorization,
   validateObjectId,
   validateUpdateContact,
   updateContact,
