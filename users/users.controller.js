@@ -1,5 +1,7 @@
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const Avatar = require('avatar-builder');
 const userModel = require('./users.model');
 const { set } = require('mongoose');
 
@@ -19,7 +21,21 @@ const createUser = async (req, res) => {
     }
 
     const hashPass = await bcryptjs.hash(password, 10);
-    const newUser = new userModel({ email, password: hashPass });
+
+    const catAvatar = Avatar.catBuilder(256);
+
+    catAvatar
+      .create('sample2-1')
+      .then(buffer =>
+        fs.writeFileSync('./public/images/defaultAva.png', buffer),
+      );
+
+    const newUser = new userModel({
+      email,
+      password: hashPass,
+      avatarURL: '../images/defaultAva.png',
+    });
+    // console.log(newUser);
 
     const userInDb = await newUser.save();
 
@@ -87,10 +103,25 @@ const logOut = async (req, res) => {
   res.status(204).send('No Content');
 };
 
+const getNewAvatar = async (req, res) => {
+  // console.log('req.user', req.user);
+  // console.log('req.file', req.file);
+
+  const { email } = req.user;
+  const userAvatarUpdate = await userModel.findOneAndUpdate(
+    { email },
+    { $set: { avatarURL: `./images/${req.file.filename}` } },
+    { new: true },
+  );
+
+  res.send(userAvatarUpdate);
+};
+
 module.exports = {
   getUsers,
   createUser,
   loginUser,
   getCurrentUser,
+  getNewAvatar,
   logOut,
 };

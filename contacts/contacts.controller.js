@@ -25,12 +25,20 @@ async function getContact(req, res) {
     }
     res.send(reqContactWithId);
   } catch (err) {
-    console.log('err getContact ---> ', err);
+    console.log('err getContact ---> ', err); // Валідація на обжІд видає ошибку!!!
   }
 }
 
 async function createContact(req, res) {
   try {
+    const { email } = req.body;
+    const contactInDB = await contactModel.findOne({ email });
+    if (contactInDB) {
+      res
+        .status(400)
+        .send('This email is allready in DB, please change email =) ');
+    }
+
     const NewContact = await contactModel.create({ ...req.body });
 
     res.status(201).send(NewContact);

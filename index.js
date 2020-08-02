@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const morgan = require('morgan');
 const cors = require('cors');
+
 require('dotenv').config();
 
 const connect = require('./db/connect');
@@ -12,7 +13,9 @@ const contactRouter = require('./contacts/contacts.router');
 
 const app = express();
 
-const PORT = 3010;
+const PORT = process.env.PORT || 3010;
+
+app.use(express.static('public'));
 
 app.use(express.json());
 
