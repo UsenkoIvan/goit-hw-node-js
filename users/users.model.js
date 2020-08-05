@@ -30,6 +30,7 @@ const userSchema = new Schema({
     type: String,
     trim: true,
   },
+  verificationToken: { type: String, trim: true },
 });
 
 const userModel = mongoose.model('auth', userSchema);
