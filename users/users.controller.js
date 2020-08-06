@@ -7,17 +7,6 @@ const sgMail = require('@sendgrid/mail');
 require('dotenv').config();
 const userModel = require('./users.model');
 
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-// const msg = {
-//   to: `${email}`,
-//   from: 'ivanja1994@gmail.com',
-//   subject: 'Please verify your email',
-//   text: 'and easy to do anywhere, even with Node.js',
-//   html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-// };
-
-// sgMail.send(msg);
-
 const getUsers = async (req, res) => {
   const userList = await userModel.find();
   res.send(userList);
@@ -166,12 +155,6 @@ const getNewAvatar = async (req, res) => {
   res.send(userAvatarUpdate);
 };
 
-// async function sendVerificationEmail(user) {
-//   const { email, verificationToken } = user;
-
-//   const verificationLink = `${process.env.BASE_URL}/auth/verify/${verificationToken}`;
-//   await emailingClient.sendVerificationEmail(email, verificationLink);
-// }
 module.exports = {
   getUsers,
   createUser,
