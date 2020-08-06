@@ -7,6 +7,7 @@ const {
   getCurrentUser,
   getNewAvatar,
   logOut,
+  verificationEmail,
 } = require('./users.controller');
 
 const { validateAuthUser } = require('../helpers/validate');
@@ -16,6 +17,7 @@ const authRouter = Router();
 
 authRouter.get('/', getUsers);
 authRouter.post('/register', validateAuthUser, createUser);
+authRouter.get('/verify/:verificationToken', verificationEmail);
 authRouter.post('/login', validateAuthUser, loginUser);
 authRouter.get('/users/current', authorization, getCurrentUser);
 authRouter.patch(
