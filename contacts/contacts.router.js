@@ -23,7 +23,7 @@ contactRouter.get('/', authorization, getContacts);
 
 //GET :id
 
-contactRouter.get('/:contactId', authorization, validateObjectId, getContact);
+contactRouter.get('/:_id', authorization, validateObjectId, getContact);
 
 // POST
 
@@ -31,17 +31,12 @@ contactRouter.post('/', authorization, validateCreateContact, createContact);
 
 // Delete
 
-contactRouter.delete(
-  '/:contactId',
-  authorization,
-  validateObjectId,
-  removeContact,
-);
+contactRouter.delete('/:_id', authorization, validateObjectId, removeContact);
 
 // Patch
 
 contactRouter.patch(
-  '/:contactId',
+  '/:_id',
   authorization,
   validateObjectId,
   validateUpdateContact,

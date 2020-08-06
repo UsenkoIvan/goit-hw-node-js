@@ -16,12 +16,12 @@ async function getContacts(req, res) {
 
 async function getContact(req, res) {
   try {
-    const { contactId } = req.params;
+    const { _id } = req.params;
 
-    const reqContactWithId = await contactModel.findById(contactId);
+    const reqContactWithId = await contactModel.findById(_id);
 
     if (!reqContactWithId) {
-      res.status(404).send(`Contact with id ${contactId} not found`);
+      res.status(404).send(`Contact with id ${_id} not found`);
     }
     res.send(reqContactWithId);
   } catch (err) {
@@ -49,21 +49,18 @@ async function createContact(req, res) {
 
 async function removeContact(req, res) {
   try {
-    const { contactId } = req.params;
+    const { _id } = req.params;
+    console.log(_id);
 
-    const contactDelete = await contactModel.findOneAndDelete({
-      _id: contactId,
-    });
+    const contactDelete = await contactModel.findByIdAndDelete(_id);
 
     if (!contactDelete) {
-      res
-        .status(404)
-        .send({ messeage: `Contact with id ${contactId} was deleted` });
+      res.status(404).send({ messeage: `Contact with id ${_id} was deleted` });
     }
 
     res.send({
       ...contactDelete,
-      messeage: `Contact with id ${contactId} is delete`,
+      messeage: `Contact with id ${_id} is delete`,
     });
   } catch (err) {
     console.log('err removeContact ---> ', err);
@@ -72,15 +69,16 @@ async function removeContact(req, res) {
 
 async function updateContact(req, res) {
   try {
-    const { contactId } = req.params;
+    const { _id } = req.params;
 
     const contactUpdate = await contactModel.findOneAndUpdate(
-      { _id: contactId },
+      { _id },
       { $set: { ...req.body } },
       { new: true },
     );
+    console.log(contactUpdate);
     if (!contactUpdate) {
-      res.status(404).send(`Contact with id ${id} does not exist`);
+      res.status(404).send(`Contact with id ${_id} does not exist`);
     }
 
     res.send(contactUpdate);
